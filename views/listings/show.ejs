@@ -1,0 +1,109 @@
+<% layout("/layout/boilerplate") %>
+<script>
+    let coordinate=<%-JSON.stringify(listing.geometry)%>;
+</script>
+<div class="row">
+    <div class="col-6 offset-3">
+        <h1><%=listing.title%></h1>
+    </div>
+    <div class="col-6 offset-3 show-card">
+        <div class="card listing-card">
+            <img src=<%=listing.image.url%> class="card-img-top show-img" alt="listing image">
+            <div class="card-img-overlay show-overlay">                
+                <p class="img-overlay-text show-text">
+                <%=listing.description%><br>
+                &#8377;<%=listing.price.toLocaleString("en-IN")%><br>
+                <%=listing.location%><br>
+                <%=listing.country%><br>
+            </p></div>
+            <div class="card-body">
+                <p class="card-text show-text">
+                    Owned By <i><%=listing.owner.username%></i><br>
+                    <%=listing.description%><br>
+                    &#8377;<%=listing.price.toLocaleString("en-IN")%><br>
+                    <%=listing.location%><br>
+                    <%=listing.country%><br>
+                </p>
+            </div>
+        </div>   
+        <%if(UserInfo&&UserInfo._id.equals(listing.owner._id)){%>
+        <form action="/listings/<%=listing.id%>/edit">
+            <button class="col-1 offset-1 btn btn-primary">Edit</button>
+            <button class="btn btn-dark" formmethod="POST" formaction="/listings/<%=listing.id%>?_method=DELETE">Delete</button>
+        </form> 
+        <%}%>
+    </div>
+</div>
+
+<div class="row review">
+    <%if(UserInfo){%>
+        <h3>Leave your review:</h3>
+    <div class="cols mt-3">
+        <form method="POST" action="/listings/<%=listing.id%>/review">
+            <label for="no-rate" class="form-label">Rating:</label>
+            <fieldset class="starability-growRotate">
+                <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="3" checked aria-label="No rating." />
+                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                <label for="first-rate1" title="Terrible">1 star</label>
+                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                <label for="first-rate2" title="Not good">2 stars</label>
+                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                <label for="first-rate3" title="Average">3 stars</label>
+                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                <label for="first-rate4" title="Very good">4 stars</label>
+                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                <label for="first-rate5" title="Amazing">5 stars</label>
+              </fieldset>
+        <label for="comments" class="form-label">Comment:</label>
+        <textarea class="form-control" id="comments" name="review[comment]" placeholder="Enter your commment here"></textarea>
+        <button class="btn btn-danger mt-3">Submit</button>
+        </form>
+    </div>
+    <%}%>
+</div>
+<%if(listing.reviews.length>0){%>
+<h3>Reviews:</h3>
+<%}%>
+<div class="row row-cols-5">
+    <%for(review of listing.reviews){%>
+        <div class="cols mt-3 me-3 card individualReviews">
+            <h4><%=review.author.username%></h4>
+            <p class="starability-result" data-rating=<%=review.rating%>>
+                Rated: 3 stars
+              </p>
+            <p><%=review.comment%></p>
+            <%if(UserInfo&&UserInfo._id.equals(review.author._id)){%>
+            <form method="POST" action="/listings/<%=listing.id%>/review/<%=review.id%>?_method=DELETE">
+                <button class="btn btn-dark">Delete</button>
+            </form>
+            <%}%>
+        </div>
+    <%}%>
+</div>
+
+<h4>Location:</h4>
+<div id="map"></div>
+
+<div class="mt-4">
+<h1>More Listings:</h1>
+<div class="allListings">
+    <%for(listing of allListings){%>
+        <a href="/listings/<%=listing.id%>">
+        <div class="individualCards listing-card card" style="width: 18rem;">
+            <img src=<%=listing.image.url%> class="card-img-top show-listing-image" alt="Listing Image">
+            <div class="card-img-overlay card-overlay"></div>
+            <div class="card-body">
+              <p class="card-text"><span class="title"><%=listing.title%></span><br>
+                <span class="description"><%=listing.location%>, <%=listing.country%></span><br>
+                <span class="price">&#8377;<%=listing.price.toLocaleString("en-IN")%>/night</span></p>
+            </div>
+        </div>
+        </a>
+    <%}%>
+</div>
+</div>
+
+<script>
+    (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+    ({key: "<%=mapApi%>", v: "weekly"});
+</script>

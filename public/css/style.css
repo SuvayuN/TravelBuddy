@@ -1,0 +1,154 @@
+body{
+    font-family: "Plus Jakarta Sans", sans-serif!important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container{
+    flex: 1;
+}
+
+/* navbar */
+
+.navbar{
+    height: 5rem;
+    margin-bottom: 3rem;
+}
+.navbar-brand{
+    font-size: 1.6rem!important;
+}
+.fa-map{
+    margin: 0.3rem; 
+    color: red; 
+    font-size: 2rem;
+}
+
+/* card */
+
+.card-text{
+    text-decoration: none!important;
+}
+.listing-card{
+    width: 100%!important;
+    border: none!important;
+    margin: 1rem;
+}
+.card-img-top{
+    border-radius: 1rem!important;
+}
+.index-listing-image{
+    height: 40vh;
+}
+.title{
+    font-weight: 800;
+    text-decoration:white underline;
+}
+.description{
+    text-decoration: white underline;
+}
+.price{
+    font-weight: 650;
+    text-decoration:white underline;
+}
+.cardoverlay{
+    background-color: rgba(255,255,255,0);
+    color: rgba(255,0,0,0);
+}
+.card-overlay:hover{
+    background-color: rgba(255,255,255,0.2);
+    color: rgba(255,0,0,1);
+}
+
+/* create&edit form */
+.btn-primary{
+    background-color: red!important;
+    border: none!important;
+}
+
+/* show page */
+
+.show-img{
+    margin-bottom: 2rem;
+}
+.show-card{
+    padding-right: 0;
+    padding-left: 0;
+    margin-bottom: 5rem;
+}
+.btn-dark{
+    margin-left: 1.5rem;
+}
+.show-text{
+    animation: appear linear;
+    animation-timeline: view();
+    animation-range:entry 0 cover 25%;
+}
+.show-overlay{
+    animation: appear linear;
+    animation-timeline: view();
+    animation-range: exit;
+    color: red;
+    background-color: rgba(255,255,255,0.3);
+}
+.show-listing-image{
+    height: 20vh;
+}
+.review{
+    margin-bottom: 9rem!important;
+}
+.individualReviews{
+    padding: 1rem;
+}
+.allListings{
+    display: flex;
+    flex-direction: row;
+    overflow:auto;
+}
+.allListings::-webkit-scrollbar{
+    width: 5px;
+    height: 8px;
+    background-color: #c9d7df;
+    border-radius: 1rem;
+}
+.allListings::-webkit-scrollbar-thumb{
+    background-color: red;
+    border-radius: 1rem;
+}
+.individualCards{
+    width: 12rem!important;
+}
+
+@keyframes appear{
+    from{
+        opacity: 0;
+        scale: 0.5;
+    }
+    to{
+        opacity: 1;
+        scale: 1;
+    }
+}
+
+/* footer */
+
+.footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightgray;
+    height: 8rem;
+    margin-top: 5rem;
+}
+.f-social,.f-links{
+    display: flex;
+    justify-content: center;
+}
+.f-social i{
+    font-size: 2rem;
+    margin: 0.5rem;
+    opacity: 0.7;
+}
+.f-social i:hover{
+    opacity: 0.9;
+    cursor: pointer;
+}
